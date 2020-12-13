@@ -4,22 +4,39 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of hfty.helpers is to ...
+The goal of hfty.helpers is to provide, in package form, a few convenience functions I use in many different projects.
 
-## Installation
+Install with `devtools::install_github("fcocquemas/hfty.helpers")`.
 
-You can install the released version of hfty.helpers from [CRAN](https://CRAN.R-project.org) with:
+## Paths functions
 
-``` r
-install.packages("hfty.helpers")
-```
+- `file_path(...)`
+- `extension(path, dot = TRUE)`
+- `add_extension(path, ext)`
+- `remove_extension(path)`
+- `update_extension(path, ext)`
+- `basename(path, remove.extensions = FALSE)`
+- `dirname(path, remove.scheme = FALSE)`
+- `url_scheme(path, colonslashes = TRUE)`
 
-## Example
 
-This is a basic example which shows you how to solve a common problem:
+## Input/output
 
-``` r
-library(hfty.helpers)
-## basic example code
-```
+- `msg(object = NULL, quiet = FALSE, ...)`
+- `read_csv_in_zip(zipfile, ...)`
+- `save_rds(object, file, threads = parallel::detectCores(), compress_level = 9, quiet = FALSE)`
+
+## Cloud: EC2
+
+- `create_spot_instances(instance_params, conf = list(), spot_options = list())`
+- `get_instances_ip(ec2_instances, conf = list())`
+- `list_running_instances(conf = list())`
+
+## Cloud: S3
+
+- `s3_list_bucket(prefix, conf = list(), pattern = "", max = Inf, quiet = FALSE, ...)`
+- `s3_object_exists(s3_url, conf = list(), quiet = FALSE, ...)`
+- `s3_read(s3_url, conf = list(), args_read = list(), ...)`
+- `s3_save(object, s3_url, conf = list(), args_save = list(), quiet = FALSE, ...)`
+
 

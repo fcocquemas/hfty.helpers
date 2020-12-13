@@ -5,7 +5,7 @@ library(data.table)
 # Functions:
 #   s3_list_bucket(prefix, conf = list(), pattern = "", max = Inf, quiet = FALSE, ...)
 #   s3_object_exists(s3_url, conf = list(), quiet = FALSE, ...)
-#   s3_read(s3_url, conf = list(), args_read = list(), quiet = FALSE, ...)
+#   s3_read(s3_url, conf = list(), args_read = list(), ...)
 #   s3_save(object, s3_url, conf = list(), args_save = list(), quiet = FALSE, ...)
 
 #' Check configuration list, and get environment variables if missing
