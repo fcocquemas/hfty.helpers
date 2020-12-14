@@ -21,5 +21,6 @@ You may use multiple objects like in message(), but they need to be passed after
 \examples{
 msg("Usage note")
 msg(quiet = FALSE, "Usage note: ", "please wash your hands")
+msg(quiet = TRUE, "Usage note: ", "please wash your hands")
 
 }

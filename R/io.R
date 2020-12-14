@@ -15,6 +15,7 @@
 #' @examples
 #' msg("Usage note")
 #' msg(quiet = FALSE, "Usage note: ", "please wash your hands")
+#' msg(quiet = TRUE, "Usage note: ", "please wash your hands")
 #'
 #' @export
 msg <- function(object = NULL, quiet = FALSE, ...) {
