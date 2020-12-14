@@ -26,7 +26,6 @@ Count observations dropped from data.table by running expr and save as attribute
 }
 \examples{
 iris_dt <- as.data.table(iris)
-count_by(iris_dt, c("*", "Species", "Species-Petal.Width"))
 iris_dt <- filter_count(iris_dt, c("*", "Species", "Species-Petal.Width"),
   "setosa-only", { iris_dt[Species == "setosa"] })
 attr(iris_dt, "log")
