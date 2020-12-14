@@ -14,12 +14,12 @@ Suggests:
     aws.ec2,
     aws.s3
 Imports: 
+    rlang,
     stringr,
-    data.table,
     readr,
+    data.table,
     lubridate,
-    rio,
-    rlang
+    rio
 Config/testthat/edition: 3
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1

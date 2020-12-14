@@ -4,14 +4,14 @@
 \alias{count_by}
 \title{Count number of observations in a data.table summarized by a certain set of fields}
 \usage{
-count_by(df, fields)
+count_by(dt, fields)
 }
 \arguments{
+\item{dt}{data.table to summarize}
+
 \item{fields}{string or vector of strings, sets of fields to summarize the observations by.
 Use "-" between column names to summarize by multiple fields. Use a single "*" to return
 the unconditional number of rows of the data.table}
-
-\item{dt}{data.table to summarize}
 }
 \description{
 Count number of observations in a data.table summarized by a certain set of fields
