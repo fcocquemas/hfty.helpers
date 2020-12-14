@@ -16,3 +16,8 @@ the unconditional number of rows of the data.table}
 \description{
 Count number of observations in a data.table summarized by a certain set of fields
 }
+\examples{
+iris_dt <- as.data.table(iris)
+count_by(iris_dt, c("*", "Species", "Species-Petal.Width"))
+
+}
