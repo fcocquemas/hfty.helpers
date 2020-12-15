@@ -190,7 +190,7 @@ s3_save <- function(object, s3_url, conf = list(), args_save = list(), quiet = F
   # Upload to S3
   r <- aws.s3::put_object(
     file = tmp,
-    object = aws.s3::get_objectkey(s3_url),
+    object = get_objectkey(s3_url),
     bucket = aws.s3::get_bucketname(s3_url),
     base_url = conf$base_url,
     key = conf$key,
@@ -200,3 +200,13 @@ s3_save <- function(object, s3_url, conf = list(), args_save = list(), quiet = F
   return(r)
 
 }
+
+get_objectkey <- function(s3_url) {
+  do.call(hfty.helpers::file_path,
+    as.list(c(
+      strsplit(hfty.helpers::dirname(s3_url, remove.scheme = TRUE),
+                 "/")[[1]][-1],
+              hfty.helpers::basename(s3_url))
+      ))
+}
+
