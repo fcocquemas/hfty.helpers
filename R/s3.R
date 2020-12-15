@@ -102,7 +102,8 @@ s3_object_exists <- function(s3_url, conf = list(), quiet = FALSE, ...) {
                         secret = conf$secret,
                         region = conf$region)
   }, type = "message")
-  attr(resp, "message") <- output
+  if(length(output) > 0)
+    attr(resp, "message") <- output
   msg(output, quiet = quiet)
   return(resp)
 }
