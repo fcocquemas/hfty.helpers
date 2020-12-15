@@ -47,7 +47,7 @@ s3_list_bucket <- function(prefix, conf = list(), pattern = "", max = Inf, quiet
 
   # List bucket using aws.s3
   bucket <- aws.s3::get_bucket(
-    prefix = aws.s3::get_objectkey(prefix),
+    prefix = get_objectkey(prefix),
     bucket = aws.s3::get_bucketname(prefix),
     max = max,
     base_url = conf$base_url,
@@ -131,7 +131,7 @@ s3_read <- function(s3_url, conf = list(), args_read = list(), ...) {
   tmp <- tempfile(fileext = ext)
   on.exit(unlink(tmp))
   r <- aws.s3::save_object(
-    object = aws.s3::get_objectkey(s3_url),
+    object = get_objectkey(s3_url),
     bucket = aws.s3::get_bucketname(s3_url),
     file = tmp,
     base_url = conf$base_url,
