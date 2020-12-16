@@ -15,3 +15,22 @@ make_list_of_size <- function(x, size, pad = NA_real_) {
   if(length(x) < size) x <- c(x, rep(pad, size - length(x)))
   return(x)
 }
+
+#' Split vector in n parts of equal size (or close)
+#'
+#' If n is greater than the size of the vector, result will have
+#' the size of the vector with one item per element.
+#'
+#' @param vec vector to split
+#' @param n integer number of parts
+#'
+#' @return list of size n
+#'
+#' @examples
+#' n_split(1:10, 2)
+#' n_split(1:10, 3)
+#'
+#' @export
+n_split <- function(vec, n) {
+  split(vec, ceiling(seq_along(vec)/(length(vec)/n)))
+}
