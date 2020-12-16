@@ -15,7 +15,8 @@ n_split(vec, n)
 list of size n
 }
 \description{
-Split vector in n parts of equal size (or close)
+If n is greater than the size of the vector, result will have
+the size of the vector with one item per element.
 }
 \examples{
 n_split(1:10, 2)
