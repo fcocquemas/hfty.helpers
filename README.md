@@ -17,8 +17,9 @@ Install with `devtools::install_github("fcocquemas/hfty.helpers")`.
 - `update_extension(path, ext)`
 - `basename(path, remove.extensions = FALSE)`
 - `dirname(path, remove.scheme = FALSE)`
-- `url_scheme(path, colonslashes = TRUE)`
-
+- `get_url_scheme(url, colonslashes = TRUE)`
+- `get_hostname(url)`
+- `get_path(url)`
 
 ## Input/output
 

@@ -118,13 +118,38 @@ test_that("dirname returns directory name without scheme if option is set to TRU
 })
 
 
-# url_scheme --------------------------------------------------------------------------------------------------
-test_that("url_scheme returns url scheme", {
-  expect_equal(url_scheme("http://dir1/dir2/file.ext"), "http://")
-  expect_equal(url_scheme("http://dir1/dir2/file.ext", colonslashes = FALSE), "http")
-  expect_equal(url_scheme("s3://bucket_name/dir1/file.ext"), "s3://")
-  expect_equal(url_scheme("s3://bucket_name/dir1/file.ext", colonslashes = FALSE), "s3")
-  expect_equal(url_scheme("mailto:test@example.org"), "mailto:")
-  expect_equal(url_scheme("mailto:test@example.org", colonslashes = FALSE), "mailto")
+# get_url_scheme ----------------------------------------------------------------------------------------------
+test_that("get_url_scheme returns url scheme", {
+  expect_equal(get_url_scheme("http://dir1/dir2/file.ext"), "http://")
+  expect_equal(get_url_scheme("http://dir1/dir2/file.ext", colonslashes = FALSE), "http")
+  expect_equal(get_url_scheme("s3://bucket_name/dir1/file.ext"), "s3://")
+  expect_equal(get_url_scheme("s3://bucket_name/dir1/file.ext", colonslashes = FALSE), "s3")
+  expect_equal(get_url_scheme("mailto:test@example.org"), "mailto:")
+  expect_equal(get_url_scheme("mailto:test@example.org", colonslashes = FALSE), "mailto")
+  expect_equal(get_url_scheme("dir1/dir2/file.ext"), "")
+  expect_equal(get_url_scheme("file.ext"), "")
+})
+
+
+# get_hostname -------------------------------------------------------------------------------------------
+test_that("get_path returns URL hostname", {
+  expect_equal(get_hostname("http://hfty-test.example.org/cars.rds"), "hfty-test.example.org")
+  expect_equal(get_hostname("https://example.org/dir1/cars.rds"), "example.org")
+  expect_equal(get_hostname("s3://hfty-test-bucket/cars.rds"), "hfty-test-bucket")
+  expect_equal(get_hostname("http://hfty-test.example.org/"), "hfty-test.example.org")
+  expect_equal(get_hostname("http://example.org"), "example.org")
+  expect_equal(get_hostname("http://hostname/"), "hostname")
+  expect_equal(get_hostname("http://hostname"), "hostname")
+})
+
+
+# get_path -----------------------------------------------------------------------------------------------
+test_that("get_path returns URL path", {
+  expect_equal(get_path("http://hfty-test.example.org/cars.rds"), "cars.rds")
+  expect_equal(get_path("https://hfty-test.example.org/dir1/cars.rds"), "dir1/cars.rds")
+  expect_equal(get_path("s3://hfty-test-bucket/cars.rds"), "cars.rds")
+  expect_equal(get_path("s3://hfty-test-bucket/dir1/cars.rds"), "dir1/cars.rds")
+  expect_equal(get_path("http://hfty-test.example.org/"), "")
+  expect_equal(get_path("http://hfty-test.example.org"), "")
 })
 

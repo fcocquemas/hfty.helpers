@@ -117,15 +117,53 @@ dirname <- function(path, remove.scheme = FALSE) {
   } else base::dirname(path)
 }
 
-
 #' Get URL scheme ('http://', etc.)
 #'
-#' @param path string or vector of strings of file names
+#' @param url string or vector of strings of URLs
 #' @param colonslashes whether to include '://' and ':', defaults to TRUE
+#'     Not included when scheme is missing
+#'
+#' @examples
+#' get_url_scheme("http://example.com")
+#' get_url_scheme("https://www.example.org/index.html")
+#' get_url_scheme("s3://hfty-test-bucket/dir1/file.txt", colonslashes = FALSE)
+#' @export
+get_url_scheme <- function(url, colonslashes = TRUE) {
+  scheme <- httr::parse_url(url)$scheme
+  if(is.null(scheme)) {
+    scheme <- ""
+  } else if(colonslashes & scheme != "") {
+    colonslashes <- gsub(paste0("^", scheme, "(:\\/?\\/?).*"), "\\1", url)
+    scheme <- paste0(scheme, colonslashes)
+  }
+
+  return(scheme)
+}
+
+#' Get hostname from URL
+#'
+#' @param url string or vector of strings of URLs
+#'
+#' @examples
+#' get_path("http://example.com")
+#' get_path("https://www.example.org/index.html")
+#' get_path("s3://hfty-test-bucket/dir1/file.txt")
 #'
 #' @export
-url_scheme <- function(path, colonslashes = TRUE) {
-  if(colonslashes) {
-    gsub("^([a-zA-Z0-9]+:\\/?\\/?).*", "\\1", path)
-  } else gsub("^([a-zA-Z0-9]+):\\/?\\/?.*", "\\1", path)
+get_hostname <- function(url) {
+  httr::parse_url(url)$hostname
+}
+
+#' Get path from URL
+#'
+#' @param url string or vector of strings of URLs
+#'
+#' @examples
+#' get_path("http://example.com")
+#' get_path("https://www.example.org/index.html")
+#' get_path("s3://hfty-test-bucket/dir1/file.txt")
+#'
+#' @export
+get_path <- function(url) {
+  httr::parse_url(url)$path
 }

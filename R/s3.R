@@ -43,12 +43,12 @@ check_s3_conf <- function(conf) {
 s3_list_bucket <- function(prefix, conf = list(), pattern = "", max = Inf, quiet = FALSE, ...) {
   conf <- check_s3_conf(conf)
 
-  if(url_scheme(prefix) == "") stop("prefix needs to include URL scheme (s3://) and bucket name")
+  if(get_url_scheme(prefix) == "") stop("prefix needs to include URL scheme (s3://) and bucket name")
 
   # List bucket using aws.s3
   bucket <- aws.s3::get_bucket(
-    prefix = get_objectkey(prefix),
-    bucket = aws.s3::get_bucketname(prefix),
+    prefix = get_path(prefix),
+    bucket = get_hostname(prefix),
     max = max,
     base_url = conf$base_url,
     key = conf$key,
@@ -131,8 +131,8 @@ s3_read <- function(s3_url, conf = list(), args_read = list(), ...) {
   tmp <- tempfile(fileext = ext)
   on.exit(unlink(tmp))
   r <- aws.s3::save_object(
-    object = get_objectkey(s3_url),
-    bucket = aws.s3::get_bucketname(s3_url),
+    object = get_path(s3_url),
+    bucket = get_hostname(s3_url),
     file = tmp,
     base_url = conf$base_url,
     key = conf$key,
@@ -190,8 +190,8 @@ s3_save <- function(object, s3_url, conf = list(), args_save = list(), quiet = F
   # Upload to S3
   r <- aws.s3::put_object(
     file = tmp,
-    object = get_objectkey(s3_url),
-    bucket = aws.s3::get_bucketname(s3_url),
+    object = get_path(s3_url),
+    bucket = get_hostname(s3_url),
     base_url = conf$base_url,
     key = conf$key,
     secret = conf$secret,
@@ -200,13 +200,3 @@ s3_save <- function(object, s3_url, conf = list(), args_save = list(), quiet = F
   return(r)
 
 }
-
-get_objectkey <- function(s3_url) {
-  do.call(hfty.helpers::file_path,
-    as.list(c(
-      strsplit(hfty.helpers::dirname(s3_url, remove.scheme = TRUE),
-                 "/")[[1]][-1],
-              hfty.helpers::basename(s3_url))
-      ))
-}
-

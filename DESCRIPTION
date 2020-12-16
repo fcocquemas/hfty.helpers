@@ -1,7 +1,7 @@
 Package: hfty.helpers
 Type: Package
 Title: Helper functions (paths, input/output, cloud...)
-Version: 0.2.2
+Version: 0.2.3
 Author: François Cocquemas
 Maintainer: François Cocquemas <francois.cocquemas@gmail.com>
 Description: More about what it does (maybe more than one line)
@@ -20,7 +20,8 @@ Imports:
     data.table,
     lubridate,
     rio,
-    RcppBDT
+    RcppBDT,
+    httr
 Config/testthat/edition: 3
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
