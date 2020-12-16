@@ -15,3 +15,7 @@ Date object of the third Friday of month
 \description{
 Find third Friday of month of a given date
 }
+\examples{
+third_friday_of_month("2020-12-14")
+
+}
