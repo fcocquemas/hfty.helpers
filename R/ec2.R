@@ -73,9 +73,20 @@ get_instances_ip <- function(ec2_instances, conf = list()) {
 #' @export
 list_running_instances <- function(conf = list()) {
   conf <- check_ec2_conf(conf)
-  aws.ec2::describe_instances(
+  ec2_instances <- aws.ec2::describe_instances(
     key = conf$key,
     secret = conf$secret,
     region = conf$region
-  )[[1]][["instancesSet"]]
+  )
+
+  # Collect instance objects
+  ec2_instances <- unlist(lapply(ec2_instances, function(x) x[["instancesSet"]]),
+                recursive = FALSE)
+
+  # Select running instances only
+  ec2_instances <- lapply(ec2_instances,
+                          function(x) if(x$instanceState$name == "running") x)
+  ec2_instances <- ec2_instances[!sapply(ec2_instances, is.null)]
+
+  return(ec2_instances)
 }
