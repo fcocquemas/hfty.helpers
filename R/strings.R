@@ -15,7 +15,6 @@ library(stringr)
 #' extract_ymd("nodatehere")
 #'
 #' @export
-#'
 extract_ymd <- function(x) {
   # Extract ymd strings
   x <- str_extract_all(x, "([0-9]{4}\\-?[0-9]{2}\\-?[0-9]{2})")
