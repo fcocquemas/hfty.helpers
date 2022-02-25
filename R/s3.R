@@ -142,9 +142,9 @@ s3_read <- function(s3_url, conf = list(), args_read = list(), ...) {
 
   # Read temp file into R
   args <- as.list(c(file = tmp, if(length(args_read) > 0) args_read else NULL))
-  if(ext == ".rds") {
+  if(ext == ".rds" | ext == ".RDS") {
     return(do.call(readRDS, args))
-  } else if(ext == ".csv") {
+  } else if(ext == ".csv" | ext == ".CSV") {
     return(do.call(data.table::fread, args))
   # } else if(ext == ".fwf") {
     # return(do.call(rio::import, args))
