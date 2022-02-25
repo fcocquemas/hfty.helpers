@@ -63,6 +63,7 @@ s3_list_bucket <- function(prefix, conf = list(), pattern = "", max = Inf, quiet
       data.table::as.data.table(x[names(x)]) }))
     dt$LastModified <- lubridate::ymd_hms(dt$LastModified)
     dt$Size <- as.numeric(dt$Size)
+    dt$FullKey <- paste0("s3://", dt$Bucket, "/", dt$Key)
 
     # Filter by regex pattern
     if(pattern != "") {
