@@ -1,7 +1,7 @@
 Package: hfty.helpers
 Type: Package
 Title: Helper functions (paths, input/output, cloud...)
-Version: 0.3.0
+Version: 0.3.1
 Author: François Cocquemas
 Maintainer: François Cocquemas <francois.cocquemas@gmail.com>
 Description: More about what it does (maybe more than one line)
@@ -24,4 +24,4 @@ Imports:
     httr
 Config/testthat/edition: 3
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
