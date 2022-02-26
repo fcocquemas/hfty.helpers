@@ -201,3 +201,55 @@ s3_save <- function(object, s3_url, conf = list(), args_save = list(), quiet = F
   return(r)
 
 }
+
+
+#' List S3 bucket content into data.table
+#'
+#' @param prefix string prefix of S3 files to select. Needs to include the URL scheme and
+#'     bucket name (s3://bucket_name/)
+#' @param conf list with 'key', 'secret', 'region', and 'base_url' parameters. If missing, will
+#'     look for AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY and AWS_DEFAULT_REGION in environment variables.
+#' @param FUN function to apply to every file being loaded
+#' @param pattern string regexp to filter results
+#' @param max integer max number of records to return, pre-filtering. Default to Inf
+#' @param quiet logical turn off output messages, default to FALSE
+#' @param cl integer number of cores to use
+#'
+#' @examples
+#' \dontrun{
+#' s3_load_folder("s3://hfty-test-bucket/", pattern = "\\.rds$")
+#' }
+#'
+#' @export
+s3_load_folder <- function(prefix, conf = list(), FUN = function(x) { x },
+                           pattern = "", max = Inf,
+                           quiet = FALSE, cl = 1,
+                           relaunch_times = 1, relaunch_cl = 1,
+                           relaunch_check_fun = is.data.frame) {
+  # List bucket
+  files <- s3_list_bucket(prefix, conf, pattern, max, quiet)
+
+  # Load files, potentially in parallel
+  dts <- pblapply(1:nrow(files), cl=cl, function(idx) {
+    try({ as.data.table(s3_read(files[idx]$FullKey, conf$cloud$aws)) })
+  })
+
+  # Relaunch failed downloads
+  for(i in 1:relaunch_times) {
+    idx_relaunch <- which(!sapply(es, relaunch_check_fun))
+    if(length(idx_relaunch) > 0) {
+      dts_rel <- pblapply(idx_relaunch, cl=cl, function(idx) {
+        try({ s3_read(files[idx]$FullKey, conf$cloud$aws) })
+      })
+      for(idx in 1:length(idx_relaunch)) {
+        dts[[idx_relaunch[idx]]] <- dts_rel[[idx]]
+      }
+    }
+  }
+
+  # Apply function
+  dts <- lapply(dts, FUN)
+
+  # Bind and return
+  rbindlist(dts, fill=TRUE, use.names=TRUE)
+}
