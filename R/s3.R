@@ -221,11 +221,11 @@ s3_save <- function(object, s3_url, conf = list(), args_save = list(), quiet = F
 #' }
 #'
 #' @export
-s3_load_folder <- function(prefix, conf = list(), FUN = function(x) { x },
+s3_load_folder <- function(prefix, conf = list(), FUN = function(x, files) { x },
                            pattern = "", max = Inf,
                            quiet = FALSE, cl = 1,
                            relaunch_times = 1, relaunch_cl = 1,
-                           relaunch_check_fun = is.data.frame) {
+                           relaunch_check_fun = is.data.frame, ...) {
   # List bucket
   files <- s3_list_bucket(prefix, conf, pattern, max, quiet)
 
@@ -248,7 +248,7 @@ s3_load_folder <- function(prefix, conf = list(), FUN = function(x) { x },
   }
 
   # Apply function
-  dts <- lapply(dts, FUN)
+  dts <- lapply(dts, FUN, files=files, ...)
 
   # Bind and return
   rbindlist(dts, fill=TRUE, use.names=TRUE)
