@@ -9,6 +9,7 @@
 #   basename(path, remove.extensions = FALSE)
 #   dirname(path, remove.scheme = FALSE)
 #   url_scheme(path, colonslashes = TRUE)
+#   list_files(path = ".", pattern = NULL, all.files = TRUE, full.names = TRUE, recursive = TRUE, ignore.case = FALSE, include.dirs = FALSE)
 
 #' Extends the file.path function to avoid doubled trailing slashes
 #' unless preceded by colon (for protocol such as http://)
@@ -166,4 +167,27 @@ get_hostname <- function(url) {
 #' @export
 get_path <- function(url) {
   httr::parse_url(url)$path
+}
+
+#' Wraps list.files with better defaults (all files, full paths,
+#' recursive, no dots)
+#'
+#' @param path vector of full path names; defaults to working directory
+#' @param pattern optional regular expression to filter paths
+#' @param all.files logical, default TRUE
+#' @param full.names logical, default TRUE
+#' @param recursive logical, default TRUE
+#' @param ignore.case logical, default FALSE
+#' @param include.dirs logical, default FALSE
+#' @param no.. logical, default TRUE
+#'
+#' @examples
+#' list_files(".")
+#'
+#' @export
+list_files <- function(
+  path = ".", pattern = NULL, all.files = TRUE, full.names = TRUE,
+  recursive = TRUE, ignore.case = FALSE, include.dirs = FALSE, no.. = TRUE) {
+  list.files(path, pattern, all.files, full.names, recursive, ignore.case,
+             include.dirs, no..)
 }

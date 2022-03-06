@@ -7,14 +7,15 @@
 s3_load_folder(
   prefix,
   conf = list(),
-  FUN = function(x) {     x },
+  FUN = function(x, files) {     x },
   pattern = "",
   max = Inf,
   quiet = FALSE,
   cl = 1,
   relaunch_times = 1,
   relaunch_cl = 1,
-  relaunch_check_fun = is.data.frame
+  relaunch_check_fun = is.data.frame,
+  ...
 )
 }
 \arguments{
