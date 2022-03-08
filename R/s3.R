@@ -146,6 +146,8 @@ s3_read <- function(s3_url, conf = list(), args_read = list(), ...) {
     return(do.call(readRDS, args))
   } else if(ext == ".csv" | ext == ".CSV") {
     return(do.call(data.table::fread, args))
+  } else if(ext == ".sas7bdat" | ext == ".SAS7BDAT") {
+    return(do.call(rio::import, args))
   # } else if(ext == ".fwf") {
     # return(do.call(rio::import, args))
   } else {
