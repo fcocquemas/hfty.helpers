@@ -233,15 +233,15 @@ s3_load_folder <- function(prefix, conf = list(), FUN = function(x, files) { x }
 
   # Load files, potentially in parallel
   dts <- pblapply(1:nrow(files), cl=cl, function(idx) {
-    try({ as.data.table(s3_read(files[idx]$FullKey, conf$cloud$aws)) })
+    try({ as.data.table(s3_read(files[idx]$FullKey, conf)) })
   })
 
   # Relaunch failed downloads
   for(i in 1:relaunch_times) {
-    idx_relaunch <- which(!sapply(es, relaunch_check_fun))
+    idx_relaunch <- which(!sapply(dts, relaunch_check_fun))
     if(length(idx_relaunch) > 0) {
       dts_rel <- pblapply(idx_relaunch, cl=cl, function(idx) {
-        try({ s3_read(files[idx]$FullKey, conf$cloud$aws) })
+        try({ s3_read(files[idx]$FullKey, conf) })
       })
       for(idx in 1:length(idx_relaunch)) {
         dts[[idx_relaunch[idx]]] <- dts_rel[[idx]]
