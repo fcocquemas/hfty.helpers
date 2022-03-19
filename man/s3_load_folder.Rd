@@ -2,7 +2,7 @@
 % Please edit documentation in R/s3.R
 \name{s3_load_folder}
 \alias{s3_load_folder}
-\title{List S3 bucket content into data.table}
+\title{Load and combine S3 folder of tabular files}
 \usage{
 s3_load_folder(
   prefix,
@@ -36,7 +36,7 @@ look for AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY and AWS_DEFAULT_REGION in envi
 \item{cl}{integer number of cores to use}
 }
 \description{
-List S3 bucket content into data.table
+Load and combine S3 folder of tabular files
 }
 \examples{
 \dontrun{
