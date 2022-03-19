@@ -205,7 +205,7 @@ s3_save <- function(object, s3_url, conf = list(), args_save = list(), quiet = F
 }
 
 
-#' List S3 bucket content into data.table
+#' Load and combine S3 folder of tabular files
 #'
 #' @param prefix string prefix of S3 files to select. Needs to include the URL scheme and
 #'     bucket name (s3://bucket_name/)
@@ -255,3 +255,33 @@ s3_load_folder <- function(prefix, conf = list(), FUN = function(x, files) { x }
   # Bind and return
   rbindlist(dts, fill=TRUE, use.names=TRUE)
 }
+
+
+#' Save data.table to S3 folder split on specific variable(s)
+#'
+#' The variables are automatically found from {glue} strings in URL
+#'
+#' @param dt a data.table
+#' @param s3_url string S3 URL to save to. Needs to include the bucket and protocol (s3://bucket_name/)
+#'     and one or several {glue} strings to be interpolated based on column names
+#' @param conf list with 'key', 'secret', 'region', and 'base_url' parameters. If missing, will
+#'     look for AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY and AWS_DEFAULT_REGION in environment variables.
+#' @param args_save  optional, additional arguments passed to save function
+#' @param quiet logical turn off output messages, default to FALSE
+#' @param ... additional arguments passed to aws.s3::put_object
+#'
+#' @examples
+#' \dontrun{
+#' s3_save_dt_folder(dt, "s3://hfty-test-bucket/obj_{date}.rds")
+#' }
+#'
+#' @export
+s3_save_dt_folder <- function(
+  dt, s3_url, conf = list(), args_save = list(), quiet = FALSE, ...) {
+
+  vars <- stringr::str_extract_all(s3_url, "\\{(.*?)\\}")[[1]]
+  vars <- gsub("[\\{\\}]", "", vars)
+  dt[, s3_save(.SD, stringr::str_glue(s3_url),
+               conf, args_save, quiet, ...), by=vars, .SDcols=names(dt)]
+}
+
