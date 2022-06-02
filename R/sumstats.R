@@ -62,3 +62,41 @@ filter_count <- function(dt, fields, key_name, expr) {
 
   return(dt)
 }
+
+#' Create a data.table of summary statistics
+#'
+#' @param x
+#' @param prefix string to add to beginning of field names
+#' @param fields vector of strings of summary statistics to compute
+#'
+#' @return
+#'
+#' @examples
+#' summary_stats(c(NA, NA, rnorm(1000)))
+#'
+#' @export
+summary_stats <- function(
+    x, prefix="", fields=c(
+      "n", "n_na", "mean", "med", "sd", "min",
+      "pct01", "pct10", "pct25", "pct75", "pct90", "pct99", "max")) {
+  stats <- data.table()
+  if("n" %in% fields) stats[, n := length(x)]
+  if("n_na" %in% fields) stats[, n_na := sum(is.na(x))]
+  if("mean" %in% fields) stats[, mean := mean(x, na.rm=TRUE)]
+  if("med" %in% fields) stats[, med := median(x, na.rm=TRUE)]
+  if("sd" %in% fields) stats[, sd := sd(x, na.rm=TRUE)]
+  if("min" %in% fields) stats[, min := min(x, na.rm=TRUE)]
+  if("pct01" %in% fields) stats[, pct01 := quantile(x, 0.01, na.rm=TRUE)]
+  if("pct10" %in% fields) stats[, pct10 := quantile(x, 0.10, na.rm=TRUE)]
+  if("pct25" %in% fields) stats[, pct25 := quantile(x, 0.25, na.rm=TRUE)]
+  if("pct75" %in% fields) stats[, pct75 := quantile(x, 0.75, na.rm=TRUE)]
+  if("pct90" %in% fields) stats[, pct90 := quantile(x, 0.90, na.rm=TRUE)]
+  if("pct99" %in% fields) stats[, pct99 := quantile(x, 0.99, na.rm=TRUE)]
+  if("max" %in% fields) stats[, max := max(x, na.rm=TRUE)]
+
+  if(prefix != "") {
+    setnames(stats, paste0(prefix, names(stats)))
+  }
+  stats
+}
+

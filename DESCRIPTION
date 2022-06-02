@@ -1,11 +1,10 @@
 Package: hfty.helpers
 Type: Package
 Title: Helper functions (paths, input/output, cloud...)
-Version: 0.3.5
+Version: 0.4.0
 Author: François Cocquemas
 Maintainer: François Cocquemas <francois.cocquemas@gmail.com>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Description: Helper functions in different categories
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
