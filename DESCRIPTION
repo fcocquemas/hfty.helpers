@@ -1,7 +1,7 @@
 Package: hfty.helpers
 Type: Package
 Title: Helper functions (paths, input/output, cloud...)
-Version: 0.4.0
+Version: 0.4.1
 Author: François Cocquemas
 Maintainer: François Cocquemas <francois.cocquemas@gmail.com>
 Description: Helper functions in different categories
