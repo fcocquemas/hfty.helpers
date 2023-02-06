@@ -146,7 +146,7 @@ s3_read <- function(s3_url, conf = list(), args_read = list(), ...) {
     return(do.call(readRDS, args))
   } else if(ext == ".csv" | ext == ".CSV") {
     return(do.call(data.table::fread, args))
-  } else if(ext == ".sas7bdat" | ext == ".SAS7BDAT") {
+  } else if(ext == ".sas7bdat" | ext == ".SAS7BDAT" | ext == ".parquet") {
     return(do.call(rio::import, args))
   # } else if(ext == ".fwf") {
     # return(do.call(rio::import, args))
@@ -186,7 +186,7 @@ s3_save <- function(object, s3_url, conf = list(), args_save = list(), quiet = F
     do.call(save_rds, args)
   } else if(ext == ".csv") {
     do.call(data.table::fwrite, args)
-  } else if(ext == ".fwf") {
+  } else if(ext == ".fwf" | ext == ".parquet") {
     do.call(rio::export, args)
   } else stop("unsupported file type in s3_url")
 
